@@ -6,21 +6,38 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { Text } from '@/components/text';
 import { colors, controlSize, radius, spacing } from '@/theme';
 
-/** A titled group of settings rows on one surface, separated by hairlines. */
-export function Group({ title, footer, children }: { title: string; footer?: string; children: ReactNode }) {
+/**
+ * A titled group of settings rows on one surface, separated by hairlines.
+ * `plain` drops the surface for content that draws its own, such as option boxes.
+ */
+export function Group({
+  title,
+  footer,
+  plain = false,
+  children,
+}: {
+  title: string;
+  footer?: string;
+  plain?: boolean;
+  children: ReactNode;
+}) {
   const rows = Children.toArray(children);
   return (
     <View style={styles.group}>
       <Text variant="caption" tone="muted" style={styles.title}>
         {title.toUpperCase()}
       </Text>
-      <View style={styles.surface}>
-        {rows.map((row, index) => (
-          <View key={index} style={index > 0 && styles.separator}>
-            {row}
-          </View>
-        ))}
-      </View>
+      {plain ? (
+        children
+      ) : (
+        <View style={styles.surface}>
+          {rows.map((row, index) => (
+            <View key={index} style={index > 0 && styles.separator}>
+              {row}
+            </View>
+          ))}
+        </View>
+      )}
       {footer ? (
         <Text variant="caption" tone="muted" style={styles.footer}>
           {footer}

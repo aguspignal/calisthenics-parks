@@ -10,7 +10,7 @@ import { links } from '@/constants';
 import { getSupabase } from '@/lib/supabase';
 import { useAuth } from '@/providers/auth-provider';
 import { usePreferences } from '@/providers/preferences-provider';
-import { colors, spacing } from '@/theme';
+import { colors, controlSize, radius, spacing } from '@/theme';
 
 import { Group, Row } from './group';
 
@@ -82,10 +82,15 @@ export function SettingsScreen() {
         ) : null}
       </Group>
 
-      <Group title="Distance units">
+      <Group title="Distance units" plain>
         <View style={styles.units}>
-          <Chip label="Kilometers" selected={distanceUnit === 'km'} onPress={() => setDistanceUnit('km')} />
-          <Chip label="Miles" selected={distanceUnit === 'mi'} onPress={() => setDistanceUnit('mi')} />
+          <Chip
+            label="Kilometers"
+            selected={distanceUnit === 'km'}
+            onPress={() => setDistanceUnit('km')}
+            style={styles.unit}
+          />
+          <Chip label="Miles" selected={distanceUnit === 'mi'} onPress={() => setDistanceUnit('mi')} style={styles.unit} />
         </View>
       </Group>
 
@@ -123,6 +128,11 @@ const styles = StyleSheet.create({
   units: {
     flexDirection: 'row',
     gap: spacing.xs,
-    padding: spacing.s,
+  },
+  unit: {
+    flex: 1,
+    justifyContent: 'center',
+    minHeight: controlSize.m,
+    borderRadius: radius.l,
   },
 });
