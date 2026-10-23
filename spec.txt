@@ -1,0 +1,24 @@
+Brief:
+
+Mobile app for finding nearby calisthenics parks, displaying their location in a 
+map. The users load new parks and maintain/update/review existing ones. For each park, the following information is shown in its own detailed screen:
+- Location
+- Available equipment (pullup bars, parallel bars, etc)
+- Photos
+- Quality of the equipment
+- Ratings (overall, environment, etc)
+- Accessibility and amenities (water access, bathrooms nearby, etc)
+- Reviews
+
+UI considerations:
+
+- The overall look of the app has to be simple and minimal
+- Extract the design system from: https://claude.ai/artifact/PkYEXEUpE6nkx4rNFAeNiT
+- The app opens directly in the map, with filters at the top (by equipment, amenities, etc), as well as an access to setting. At the bottom, a button to center at user's location and a "contribute" button
+- The contribute screen allows the user to add a new park or review/update an existing one.
+
+Stack:
+
+- Expo React Native + Typescript
+- Supabase
+
