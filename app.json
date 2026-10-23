@@ -6,11 +6,13 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "parks",
-    "platforms": ["android"],
+    "platforms": [
+      "android"
+    ],
     "userInterfaceStyle": "dark",
     "backgroundColor": "#232323",
     "android": {
-      "package": "com.example.parks",
+      "package": "com.aguspignal.parks",
       "adaptiveIcon": {
         "backgroundColor": "#232323",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -38,9 +40,18 @@
               {
                 "fontFamily": "Inter",
                 "fontDefinitions": [
-                  { "path": "./node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf", "weight": 400 },
-                  { "path": "./node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf", "weight": 600 },
-                  { "path": "./node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf", "weight": 700 }
+                  {
+                    "path": "./node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "./node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+                    "weight": 600
+                  },
+                  {
+                    "path": "./node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf",
+                    "weight": 700
+                  }
                 ]
               }
             ]
@@ -51,6 +62,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7824156a-b1a9-43f6-96de-b049c8b21869"
+      }
     }
   }
 }
