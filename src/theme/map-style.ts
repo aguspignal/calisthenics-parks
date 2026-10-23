@@ -2,6 +2,20 @@ import type { MapStyleElement } from 'react-native-maps';
 
 import { palette } from './colors';
 
+/** The area around the user where a park can be placed. The fill is the accent at 10% opacity. */
+export const rangeCircle = {
+  strokeColor: palette.orange,
+  fillColor: `${palette.orange}1a`,
+  strokeWidth: 2,
+} as const;
+
+/** The area around an existing park where a new one can't be placed. The fill is red at 10% opacity. */
+export const blockedCircle = {
+  strokeColor: palette.red,
+  fillColor: `${palette.red}1a`,
+  strokeWidth: 1,
+} as const;
+
 /** Google Maps style: dark, minimal, only parks kept among points of interest. */
 export const mapStyle: MapStyleElement[] = [
   { elementType: 'geometry', stylers: [{ color: palette.black_1 }] },

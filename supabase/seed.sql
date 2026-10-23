@@ -1,4 +1,4 @@
--- Sample parks for trying the map before the add-park flow exists.
+-- Sample parks for trying the map without adding them one by one in the app.
 -- Set center_lat / center_lng to a spot near you, then run this in the Supabase SQL editor.
 -- It creates three verified parks and one unverified park around that spot.
 do $$
@@ -15,9 +15,9 @@ begin
   insert into public.parks (name, description, lat, lng, status)
   values ('Sample Riverside Bars', 'Sample park. Delete it once real parks exist.', center_lat + 0.004, center_lng + 0.002, 'approved')
   returning id into new_park_id;
-  insert into public.park_equipment (park_id, equipment_type_id, condition) values
-    (new_park_id, 'pull_up_bar', 'good'), (new_park_id, 'parallel_bars', 'good'),
-    (new_park_id, 'monkey_bars', 'worn'), (new_park_id, 'wall_bars', 'good');
+  insert into public.park_equipment (park_id, equipment_type_id, condition, quantity) values
+    (new_park_id, 'pull_up_bar', 'good', 3), (new_park_id, 'parallel_bars', 'good', 2),
+    (new_park_id, 'monkey_bars', 'worn', 1), (new_park_id, 'wall_bars', 'good', 4);
   insert into public.park_amenities (park_id, amenity_type_id) values
     (new_park_id, 'drinking_water'), (new_park_id, 'lighting'), (new_park_id, 'public_transport');
 

@@ -44,6 +44,6 @@ Docs: https://docs.expo.dev/eas/index.md
 
 - Spec: `spec.txt`. Product rules: `docs/DECISIONS.md` (no admins, 2-confirm / 2-reject, 250 m proximity, ...). Ask the user before changing any of them.
 - Android only. The app runs in an EAS development build, not Expo Go. A new native dependency or config plugin means a new `eas build --profile development --platform android`.
-- Design system: tokens in `src/theme` come from https://claude.ai/artifact/PkYEXEUpE6nkx4rNFAeNiT. Dark theme only. Build UI from `src/components` (`Text`, `Button`, `IconButton`, `Chip`, `EmptyState`) and theme roles; never hardcode colors, font sizes or spacing in screens. Icons: `lucide-react-native`.
+- Design system: tokens in `src/theme` come from https://claude.ai/artifact/PkYEXEUpE6nkx4rNFAeNiT. Dark theme only. Build UI from `src/components` (`Text`, `Button`, `IconButton`, `Chip`, `OptionRow`, `TextField`, `EmptyState`) and theme roles; never hardcode colors, font sizes or spacing in screens. Icons: `lucide-react-native`.
 - Database: never edit an applied migration; add a new file in `supabase/migrations`. API roles are read-only; every write is a security definer RPC that enforces sign-in, proximity and voting rules. After a schema change, update `src/lib/database.types.ts` (`npm run db:types` once the project is linked).
 - Data access goes through TanStack Query hooks in `src/data`.

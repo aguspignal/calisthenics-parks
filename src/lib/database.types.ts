@@ -141,16 +141,19 @@ export type Database = {
           condition: Database["public"]["Enums"]["equipment_condition"]
           equipment_type_id: string
           park_id: string
+          quantity: number
         }
         Insert: {
           condition?: Database["public"]["Enums"]["equipment_condition"]
           equipment_type_id: string
           park_id: string
+          quantity?: number
         }
         Update: {
           condition?: Database["public"]["Enums"]["equipment_condition"]
           equipment_type_id?: string
           park_id?: string
+          quantity?: number
         }
         Relationships: [
           {

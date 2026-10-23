@@ -1,6 +1,7 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { Coordinates } from '@/hooks/use-user-location';
+import type { Enums } from '@/lib/database.types';
 import { getSupabase } from '@/lib/supabase';
 import type { Bounds } from '@/utils/geo';
 
@@ -48,7 +49,7 @@ export function usePark(id: string) {
         .select(
           `id, name, description, lat, lng, status, review_count,
           rating_overall, rating_equipment, rating_environment, rating_cleanliness, rating_safety,
-          equipment:park_equipment(condition, type:equipment_types(id, name, sort_order)),
+          equipment:park_equipment(condition, quantity, type:equipment_types(id, name, sort_order)),
           amenities:park_amenities(type:amenity_types(id, name, category, sort_order)),
           submissions:park_submissions(id, kind, status, confirmations, rejections)`,
         )
@@ -95,6 +96,40 @@ export function useParkPhotos(parkId: string) {
         url: supabase.storage.from('park-photos').getPublicUrl(photo.storage_path).data.publicUrl,
       }));
     },
+  });
+}
+
+export type NewPark = {
+  name: string;
+  description: string;
+  location: Coordinates;
+  equipment: { type: string; condition: Enums<'equipment_condition'>; quantity: number }[];
+  amenityIds: string[];
+};
+
+/**
+ * Adds a park as unverified. `create_park` checks sign-in, that `userLocation` is near the park
+ * and that no park exists at the spot; its error messages can be shown as they are.
+ * Resolves to the new park's id.
+ */
+export function useCreatePark() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ park, userLocation }: { park: NewPark; userLocation: Coordinates }) => {
+      const { data, error } = await getSupabase().rpc('create_park', {
+        name: park.name.trim(),
+        description: park.description.trim() || undefined,
+        lat: park.location.latitude,
+        lng: park.location.longitude,
+        user_lat: userLocation.latitude,
+        user_lng: userLocation.longitude,
+        equipment: park.equipment,
+        amenity_ids: park.amenityIds,
+      });
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['parks'] }),
   });
 }
 

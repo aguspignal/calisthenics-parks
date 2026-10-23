@@ -57,7 +57,7 @@ export function ParkScreen({ id }: { id: string }) {
   const pendingChanges = p.submissions.filter((s) => s.kind !== 'create' && s.status === 'pending').length;
   const confirmationsRequired = settings.data?.confirmations_required;
   const equipment = p.equipment
-    .flatMap((item) => (item.type ? [{ ...item.type, condition: item.condition }] : []))
+    .flatMap((item) => (item.type ? [{ ...item.type, condition: item.condition, quantity: item.quantity }] : []))
     .sort((a, b) => a.sort_order - b.sort_order);
   const amenities = p.amenities
     .flatMap((item) => (item.type ? [item.type] : []))
@@ -156,7 +156,10 @@ export function ParkScreen({ id }: { id: string }) {
         {equipment.length === 0 ? <Muted>No equipment listed.</Muted> : null}
         {equipment.map((item) => (
           <View key={item.id} style={styles.row}>
-            <Text style={styles.flex}>{item.name}</Text>
+            <Text style={styles.flex}>
+              {item.name}
+              {item.quantity > 1 ? <Text tone="muted">{` ×${item.quantity}`}</Text> : null}
+            </Text>
             {item.condition === 'broken' ? <CircleAlert size={16} color={colors.danger} /> : null}
             <Text variant="notes" tone={conditions[item.condition].tone}>
               {conditions[item.condition].label}

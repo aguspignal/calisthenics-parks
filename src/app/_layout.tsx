@@ -50,7 +50,8 @@ export default function RootLayout() {
               <Stack.Screen name="park/[id]/edit" options={{ title: 'Suggest an edit' }} />
               <Stack.Screen name="park/[id]/verify" options={{ title: 'Confirm changes' }} />
               <Stack.Screen name="contribute/index" options={{ title: 'Contribute' }} />
-              <Stack.Screen name="contribute/new-park" options={{ title: 'Add a park' }} />
+              <Stack.Screen name="contribute/new-park/index" options={{ title: 'Add a park' }} />
+              <Stack.Screen name="contribute/new-park/details" options={{ title: 'Park details' }} />
               <Stack.Screen name="settings" options={{ title: 'Settings' }} />
               <Stack.Screen name="sign-in" options={{ presentation: 'modal', title: 'Sign in' }} />
             </Stack>

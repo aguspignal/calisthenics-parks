@@ -14,9 +14,10 @@ Product and technical decisions made when the project started (2026-10-13). Chan
 | Unverified parks | Shown on the map with a grey marker so nearby users can find and confirm them. They stay pending until decided (no expiry). |
 | Reviews and photos | Only from within 250 m. Publish immediately. Each user has one review per park (editable). Other users can report a review or photo; **3 reports** hide it. |
 | Ratings | A review rates **Overall, Equipment quality, Environment, Cleanliness, Safety** (1–5, all required) plus optional text and photos. Parks show the averages. |
-| Equipment quality | Each piece of equipment also has a condition: good / worn / broken, changed through the confirmed-edit flow. |
+| Equipment quality | Each equipment type has a quantity (1–20) and one condition for all its units: good / worn / broken. Both change through the confirmed-edit flow. Quantity added 2026-10-23. |
 | Removal | A park that no longer exists is removed through the same confirm flow ("propose removal"). |
-| Duplicates | A new park within 30 m of a visible park is refused. |
+| Duplicates | A new park within 50 m of a visible (verified or unverified) park is refused. The pin map shows those areas in red. Raised from 30 m on 2026-10-23. |
+| Park names | No free text: the author picks from suggestions built from the address at the pin (the device's reverse geocoder): the place's name and the street (+ neighbourhood). Never the city or an area name alone. Renames should use the same suggestions. The server only checks the length, so a modified app could send any name (same trust as the location). Decided 2026-10-23. |
 | Theme | Dark only, from the design system tokens. |
 | Language | English only; strings are inline for now. |
 | Settings | Account (sign in/out, delete account), distance units (km/mi), notifications (placeholder), about & legal. |

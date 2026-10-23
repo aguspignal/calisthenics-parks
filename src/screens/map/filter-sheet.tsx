@@ -1,15 +1,16 @@
 import { BottomSheet, Host, RNHostView } from '@expo/ui';
-import { Check, CircleAlert } from 'lucide-react-native';
+import { CircleAlert } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { Button } from '@/components/button';
+import { OptionRow } from '@/components/option-row';
 import { Chip } from '@/components/chip';
 import { EmptyState } from '@/components/empty-state';
 import { Text } from '@/components/text';
 import { useCatalog } from '@/data/catalog';
 import type { ParkFilters } from '@/data/parks';
-import { colors, controlSize, radius, spacing } from '@/theme';
+import { colors, spacing } from '@/theme';
 
 export type FilterSection = 'equipment' | 'amenities' | 'rating';
 
@@ -124,21 +125,6 @@ export function FilterSheet({ section, filters, onChange, onClose }: Props) {
   );
 }
 
-function OptionRow({ label, selected, onPress }: { label: string; selected: boolean; onPress: () => void }) {
-  return (
-    <Pressable
-      accessibilityRole="checkbox"
-      accessibilityState={{ checked: selected }}
-      onPress={onPress}
-      style={({ pressed }) => [styles.option, pressed && { backgroundColor: colors.surfaceRaised }]}>
-      <Text style={styles.optionLabel}>{label}</Text>
-      <View style={[styles.checkbox, selected && styles.checkboxSelected]}>
-        {selected ? <Check size={16} color={colors.onAccent} /> : null}
-      </View>
-    </Pressable>
-  );
-}
-
 const styles = StyleSheet.create({
   content: {
     gap: spacing.m,
@@ -156,29 +142,6 @@ const styles = StyleSheet.create({
   groupTitle: {
     paddingTop: spacing.s,
     paddingBottom: spacing.xxs,
-  },
-  option: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.s,
-    minHeight: controlSize.m,
-    borderRadius: radius.m,
-  },
-  optionLabel: {
-    flex: 1,
-  },
-  checkbox: {
-    width: 22,
-    height: 22,
-    borderRadius: radius.s,
-    borderWidth: 2,
-    borderColor: colors.textMuted,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkboxSelected: {
-    backgroundColor: colors.accent,
-    borderColor: colors.accent,
   },
   actions: {
     flexDirection: 'row',

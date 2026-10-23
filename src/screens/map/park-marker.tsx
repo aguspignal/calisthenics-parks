@@ -7,8 +7,8 @@ import type { ParkInView } from '@/data/parks';
 import { colors, radius } from '@/theme';
 
 type Props = {
-  park: ParkInView;
-  onPress: () => void;
+  park: Pick<ParkInView, 'name' | 'lat' | 'lng' | 'status'>;
+  onPress?: () => void;
 };
 
 /** Orange marker for verified parks, grey outlined marker for unverified (pending) ones. */
@@ -30,7 +30,7 @@ export function ParkMarker({ park, onPress }: Props) {
       onPress={onPress}
       accessibilityLabel={pending ? `${park.name}, unverified` : park.name}>
       <View style={[styles.marker, pending ? styles.pending : styles.verified]}>
-        <Dumbbell size={16} color={pending ? colors.text : colors.onAccent} />
+        <Dumbbell size={20} color={pending ? colors.text : colors.onAccent} />
       </View>
     </Marker>
   );
@@ -38,8 +38,8 @@ export function ParkMarker({ park, onPress }: Props) {
 
 const styles = StyleSheet.create({
   marker: {
-    width: 32,
-    height: 32,
+    width: 40,
+    height: 40,
     borderRadius: radius.pill,
     borderWidth: 2,
     alignItems: 'center',

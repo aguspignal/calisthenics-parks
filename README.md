@@ -9,10 +9,11 @@ Stack: Expo SDK 57 (React Native, TypeScript, Expo Router) · Supabase (Postgres
 | Built | Placeholder (not built yet) |
 | --- | --- |
 | Map with Google Maps dark style, user location, verified/unverified markers | Sign-in with email (one-time code, email + password) |
-| Filters: equipment, amenities, minimum rating, verified only | Add a park |
-| Park details: equipment and condition, amenities, ratings, reviews, photos, directions | Write a review, upload photos |
-| Contribute hub: parks you can contribute to near you | Suggest an edit / removal, confirm or reject changes |
-| Settings: account, distance units, about | Notifications |
+| Filters: equipment, amenities, minimum rating, verified only | Write a review, upload photos |
+| Park details: equipment and condition, amenities, ratings, reviews, photos, directions | Suggest an edit / removal, confirm or reject changes |
+| Contribute hub: parks you can contribute to near you | Notifications |
+| Add a park: pin within your range, name picked from address suggestions, description, equipment and condition, amenities | |
+| Settings: account, distance units, about | |
 | Sign-in with Google (native account picker) | |
 | Database schema, rules and storage (`supabase/migrations`) | |
 
@@ -40,7 +41,7 @@ npm install
    ```bash
    npm run db:types
    ```
-5. Optional: to see parks on the map before the add-park flow exists, set your coordinates at the top of `supabase/seed.sql` and run it in the SQL editor.
+5. Optional: to see sample parks on the map without adding them one by one, set your coordinates at the top of `supabase/seed.sql` and run it in the SQL editor.
 
 ### 3. App identity
 
@@ -105,7 +106,7 @@ Open the Parks dev build on the phone and connect to the dev server (same Wi-Fi,
 src/
   app/          Routes only (Expo Router): map, park/[id], contribute, settings, sign-in
   screens/      Screen bodies and their private components
-  components/   Shared UI: Text, Button, IconButton, Chip, EmptyState, RequireAuth
+  components/   Shared UI: Text, Button, IconButton, Chip, OptionRow, TextField, EmptyState, RequireAuth
   data/         TanStack Query hooks over Supabase
   hooks/        useUserLocation
   lib/          Supabase client, query client, database types
