@@ -1,6 +1,7 @@
 import type { Session } from '@supabase/supabase-js';
 import { createContext, use, useEffect, useState, type ReactNode } from 'react';
 
+import { signOutOfGoogle } from '@/lib/google-sign-in';
 import { getSupabase, isSupabaseConfigured } from '@/lib/supabase';
 
 type AuthState = {
@@ -17,8 +18,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!isSupabaseConfigured) return;
     // Emits INITIAL_SESSION first, then every sign-in, sign-out and token refresh.
-    const { data } = getSupabase().auth.onAuthStateChange((_event, session) => {
+    const { data } = getSupabase().auth.onAuthStateChange((event, session) => {
       setState({ session, isLoading: false });
+      if (event === 'SIGNED_OUT') signOutOfGoogle();
     });
     return () => data.subscription.unsubscribe();
   }, []);

@@ -37,5 +37,6 @@ The equipment and amenity lists in the first migration are a proposal; change th
 | Data fetching | TanStack Query | Caching, loading and error states. |
 | Icons | Lucide (`lucide-react-native`) | Minimal line icons; the design system has none. |
 | Sheets and switches | `@expo/ui` (native Compose) | Native behavior; content inside sheets is styled with the design tokens. |
+| Google sign-in | `@react-native-google-signin/google-signin` + `signInWithIdToken` | Native account picker, no browser; Supabase's recommended flow for Expo. |
 | Session storage | `expo-sqlite` localStorage | Expo's recommended Supabase setup. |
 | Font | Inter (400/600/700) embedded with the `expo-font` config plugin | Design system font; no runtime loading. |

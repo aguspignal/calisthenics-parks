@@ -8,11 +8,12 @@ Stack: Expo SDK 57 (React Native, TypeScript, Expo Router) · Supabase (Postgres
 
 | Built | Placeholder (not built yet) |
 | --- | --- |
-| Map with Google Maps dark style, user location, verified/unverified markers | Sign-in (Google, email code, email + password) |
+| Map with Google Maps dark style, user location, verified/unverified markers | Sign-in with email (one-time code, email + password) |
 | Filters: equipment, amenities, minimum rating, verified only | Add a park |
 | Park details: equipment and condition, amenities, ratings, reviews, photos, directions | Write a review, upload photos |
 | Contribute hub: parks you can contribute to near you | Suggest an edit / removal, confirm or reject changes |
 | Settings: account, distance units, about | Notifications |
+| Sign-in with Google (native account picker) | |
 | Database schema, rules and storage (`supabase/migrations`) | |
 
 ## Setup
@@ -43,7 +44,7 @@ npm install
 
 ### 3. App identity
 
-Replace the placeholder Android package `com.example.parks` in `app.json` (`android.package`) with your own reverse-domain name. Do it before the first build: the Google Maps key and Google sign-in are tied to it.
+The Android package is `com.aguspignal.parks` (`app.json`, `android.package`). The Google Maps key and Google sign-in are tied to it, so don't change it.
 
 ### 4. Google Maps key
 
@@ -52,9 +53,24 @@ Replace the placeholder Android package `com.example.parks` in `app.json` (`andr
    ```bash
    eas env:set --name GOOGLE_MAPS_ANDROID_API_KEY --value <key> --visibility sensitive --environment development --environment preview --environment production
    ```
-3. After the first build (step 5), restrict the key to Android apps: your package name plus the SHA-1 fingerprint that `eas credentials -p android` shows.
+3. After the first build (step 6), restrict the key to Android apps: your package name plus the SHA-1 fingerprint that `eas credentials -p android` shows.
 
-### 5. Development build
+### 5. Google sign-in
+
+The app gets a Google ID token with `@react-native-google-signin/google-signin` and passes it to `supabase.auth.signInWithIdToken`. The library's config plugin only changes iOS, so it is not in `app.json`.
+
+1. Google Cloud console → Google Auth Platform: set up branding and audience (External; add test users while the app is in Testing). Check that the `openid`, `userinfo.email` and `userinfo.profile` scopes are there.
+2. Create two OAuth clients:
+   - **Web application**, with the redirect URI `https://<project-ref>.supabase.co/auth/v1/callback`.
+   - **Android**, with package `com.aguspignal.parks` and the SHA-1 from `eas credentials -p android`. When you publish, add another Android client for the Play Store signing SHA-1.
+3. Supabase dashboard → Authentication → Providers → Google: enable it. Set **Client IDs** to `<web client ID>,<android client ID>` (web first) and **Client secret** to the web client's secret.
+4. Put the web client ID in `.env` as `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`.
+
+The downloaded `client_secret*.json` files are ignored by git. The client secret goes in Supabase only, never in the app.
+
+For preview and production builds, set the three `EXPO_PUBLIC_*` values from `.env` as EAS environment variables too: EAS doesn't upload `.env`.
+
+### 6. Development build
 
 ```bash
 eas init
@@ -65,7 +81,7 @@ Install the APK on the phone from the link EAS prints. Because `app.config.ts` e
 
 Rebuild only when native dependencies or `app.json` plugins change; JavaScript changes load from the dev server.
 
-### 6. Run
+### 7. Run
 
 ```bash
 npm start

@@ -1,12 +1,28 @@
+import { useRouter } from 'expo-router';
 import { Mail } from 'lucide-react-native';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { Alert, ScrollView, StyleSheet, View } from 'react-native';
 
 import { Button } from '@/components/button';
 import { Text } from '@/components/text';
+import { isGoogleSignInConfigured, signInWithGoogle } from '@/lib/google-sign-in';
 import { spacing } from '@/theme';
 
-/** Placeholder: Google, email one-time code and email + password sign-in are the next step. */
 export function SignInScreen() {
+  const router = useRouter();
+  const [signingIn, setSigningIn] = useState(false);
+
+  const continueWithGoogle = async () => {
+    setSigningIn(true);
+    try {
+      if (await signInWithGoogle()) router.back();
+    } catch (error) {
+      Alert.alert("Couldn't sign in with Google", error instanceof Error ? error.message : 'Please try again.');
+    } finally {
+      setSigningIn(false);
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.content}>
       <Text variant="title">Sign in to contribute</Text>
@@ -14,11 +30,17 @@ export function SignInScreen() {
         Anyone can browse parks. An account lets you add parks, review them and confirm other people&apos;s changes.
       </Text>
       <View style={styles.buttons}>
-        <Button title="Continue with Google" variant="secondary" disabled />
+        <Button
+          title="Continue with Google"
+          variant="secondary"
+          onPress={continueWithGoogle}
+          loading={signingIn}
+          disabled={!isGoogleSignInConfigured}
+        />
         <Button title="Continue with email" icon={Mail} variant="secondary" disabled />
       </View>
       <Text variant="caption" tone="muted">
-        Sign-in is not built yet. It will offer Google, an emailed one-time code, and email with password.
+        Email sign-in (one-time code, or email and password) is coming soon.
       </Text>
     </ScrollView>
   );
