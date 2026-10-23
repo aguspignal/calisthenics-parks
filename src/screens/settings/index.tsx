@@ -12,7 +12,7 @@ import { useAuth } from '@/providers/auth-provider';
 import { usePreferences } from '@/providers/preferences-provider';
 import { colors, spacing } from '@/theme';
 
-import { Group, Row, ToggleRow } from './group';
+import { Group, Row } from './group';
 
 export function SettingsScreen() {
   const router = useRouter();
@@ -26,6 +26,12 @@ export function SettingsScreen() {
     setBusy(false);
     if (error) Alert.alert("Couldn't sign out", error.message);
   };
+
+  const confirmSignOut = () =>
+    Alert.alert('Sign out?', 'You can sign back in at any time.', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Sign out', onPress: signOut },
+    ]);
 
   const deleteAccount = async () => {
     if (!session) return;
@@ -64,7 +70,7 @@ export function SettingsScreen() {
         ) : (
           <Row label="Sign in" icon={LogIn} onPress={() => router.push('/sign-in')} />
         )}
-        {session ? <Row label="Sign out" icon={LogOut} onPress={signOut} disabled={busy} /> : null}
+        {session ? <Row label="Sign out" icon={LogOut} onPress={confirmSignOut} disabled={busy} /> : null}
         {session ? (
           <Row
             label="Delete account"
@@ -81,11 +87,6 @@ export function SettingsScreen() {
           <Chip label="Kilometers" selected={distanceUnit === 'km'} onPress={() => setDistanceUnit('km')} />
           <Chip label="Miles" selected={distanceUnit === 'mi'} onPress={() => setDistanceUnit('mi')} />
         </View>
-      </Group>
-
-      <Group title="Notifications" footer="Coming soon.">
-        <ToggleRow label="My changes are approved or rejected" value={false} onValueChange={() => {}} disabled />
-        <ToggleRow label="Parks near me need confirming" value={false} onValueChange={() => {}} disabled />
       </Group>
 
       <Group title="About">
