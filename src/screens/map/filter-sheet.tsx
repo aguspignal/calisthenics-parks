@@ -1,4 +1,4 @@
-import { BottomSheet, Host } from '@expo/ui';
+import { BottomSheet, Host, RNHostView } from '@expo/ui';
 import { Check, CircleAlert } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
@@ -107,14 +107,18 @@ export function FilterSheet({ section, filters, onChange, onClose }: Props) {
   return (
     <Host matchContents colorScheme="dark">
       <BottomSheet isPresented={section !== null} onDismiss={onClose} containerColor={colors.surface}>
-        <View style={styles.content}>
-          <Text variant="subtitles">{titles[shownSection]}</Text>
-          {body}
-          <View style={styles.actions}>
-            <Button title="Clear" variant="ghost" onPress={clear} />
-            <Button title="Done" onPress={onClose} />
+        {/* The sheet has its own window with no React root above it. RNHostView acts as that root, so
+            touches and the option list's scroll gesture work. A bare ScrollView here crashes on scroll. */}
+        <RNHostView matchContents={{ vertical: true }}>
+          <View style={styles.content}>
+            <Text variant="subtitles">{titles[shownSection]}</Text>
+            {body}
+            <View style={styles.actions}>
+              <Button title="Clear" variant="ghost" onPress={clear} />
+              <Button title="Done" onPress={onClose} />
+            </View>
           </View>
-        </View>
+        </RNHostView>
       </BottomSheet>
     </Host>
   );
